@@ -1,3 +1,22 @@
+bin/ 文件夹这个一般是 脚本入口或测试文件的放置处，可能你现在还没看到内容，暂时不用管
+d2_mod/ 文件夹（= Detectron2 的修改版）这个文件夹是重点！是对原生 Detectron2 模型做了一些定制修改
+dataset_mapper.py图像读取（包括 PCNA 和明场图合成）图像预处理（gamma 校正、增强）把 dataset_dict 转换成 Tensor ✅ 是整个训练时的“图像准备入口”
+fast_rcnn.py ✅这个是对原始 Detectron2 的 fast_rcnn_inference_single_image() 做了修改，用于：在预测时输出 confidence score控制哪些 box 被筛选出来
+pcnaDeep/ 文件夹 ✅这是主代码文件夹，包含了真正执行“检测+追踪+细胞周期判断”的逻辑
+detect.py ✅负责模型预测阶段，调用 Detectron2 模型进行：图像分割 / 检测输出 mask、bbox、score如果加上 --vis_out 参数，会保存可视化图像
+main.py ✅你命令行运行的主要脚本（主程序入口）train_detectron2.py ✅这是你训练模型的脚本：这是你训练模型的脚本：加载配置（dtrnCfg.yaml）注册数据集（Detectron2 dataset）调用训练器开始训练！
+config/ 文件夹用来存放 yaml 配置文件，也就是控制模型结构、数据路径、训练参数的地方。
+
+deprecated/（弃用的旧代码
+deep_cell_functions/（PCNA识别工具函数）
+detectron2-0.4_mod/就是 pcnaDeep 所用的 修改版本的 Detectron2
+docs/一般是文档，生成网页用的（你可以忽略）
+examples/一些示例图像、测试用的小文件夹，可以参考用法，但不是 pipeline 核心
+models/这个一般是用来存放：下载的模型权重文件或训练后输出的模型文件。如果你训练自己的模型，最终的 .pth 就会保存在这里
+
+tutorial/assets/可能包含测试图像、标签或演示用的小模型，用于 notebook 示例运行。
+------------------------------------------------------------------------------------------------------------------------------------
+
 # pcnaDeep: a deep-learning based single-cell cycle profiler with PCNA signal
 
 Welcome! pcnaDeep integrates cutting-edge detection techniques with tracking and cell cycle resolving models.
